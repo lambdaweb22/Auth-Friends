@@ -1,5 +1,6 @@
 import React from "react";
-import axios from 'axios';
+import { axiosWithAuth } from "../utils/axiosWithAuth";
+
 
 class AddFriend extends React.Component {
     state = {
@@ -22,8 +23,24 @@ class AddFriend extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        axios
-            .post()
+        axiosWithAuth()
+            .get('http://localhost:5000/friends')
+            .then(res => {
+                this.state.newFriend(this.res.data);
+                console.log(res.data);
+            })
+            .catch(err => console.log(err));
+    }
+
+    addFriend = e => {
+        axiosWithAuth()
+            .post('http://localhost:5000/friends', this.state.friends)
+            .then(res => {
+                this.state.newFriend(this.res.data);
+                console.log(res.data);
+            })
+            .catch(err => console.log(err));
+            
     }
 
     render() {
